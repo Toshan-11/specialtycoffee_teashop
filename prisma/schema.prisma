@@ -1,0 +1,304 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Auth ────────────────────────────────────────────
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  password      String?
+  image         String?
+  role          Role      @default(CUSTOMER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts      Account[]
+  sessions      Session[]
+  cart          Cart?
+  orders        Order[]
+  reviews       Review[]
+  wishlist      Wishlist?
+  addresses     Address[]
+  subscriptions Subscription[]
+  quizResult    QuizResult?
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+enum Role {
+  CUSTOMER
+  ADMIN
+}
+
+// ─── Products ────────────────────────────────────────
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  slug        String    @unique
+  description String?
+  image       String?
+  products    Product[]
+  createdAt   DateTime  @default(now())
+}
+
+model Product {
+  id             String   @id @default(cuid())
+  name           String
+  slug           String   @unique
+  description    String   @db.Text
+  shortDesc      String?
+  price          Float
+  compareAtPrice Float?
+  images         String[]
+  categoryId     String
+  origin         String?
+  roastLevel     RoastLevel?
+  flavorNotes    String[]
+  caffeineLevel  CaffeineLevel?
+  weight         String?
+  inStock        Boolean  @default(true)
+  featured       Boolean  @default(false)
+  bestSeller     Boolean  @default(false)
+  rating         Float    @default(0)
+  reviewCount    Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  category       Category      @relation(fields: [categoryId], references: [id])
+  cartItems      CartItem[]
+  orderItems     OrderItem[]
+  reviews        Review[]
+  wishlistItems  WishlistItem[]
+  subscriptions  Subscription[]
+
+  @@index([categoryId])
+  @@index([slug])
+}
+
+enum RoastLevel {
+  LIGHT
+  MEDIUM
+  MEDIUM_DARK
+  DARK
+}
+
+enum CaffeineLevel {
+  NONE
+  LOW
+  MEDIUM
+  HIGH
+}
+
+// ─── Cart ────────────────────────────────────────────
+
+model Cart {
+  id        String     @id @default(cuid())
+  userId    String     @unique
+  items     CartItem[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model CartItem {
+  id        String @id @default(cuid())
+  cartId    String
+  productId String
+  quantity  Int    @default(1)
+  grind     String @default("whole-bean")
+
+  cart    Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id])
+
+  @@unique([cartId, productId, grind])
+}
+
+// ─── Orders ──────────────────────────────────────────
+
+model Order {
+  id              String      @id @default(cuid())
+  userId          String
+  status          OrderStatus @default(PENDING)
+  subtotal        Float
+  shipping        Float       @default(0)
+  tax             Float       @default(0)
+  total           Float
+  stripePaymentId String?
+  shippingAddress Json?
+  notes           String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  user  User        @relation(fields: [userId], references: [id])
+  items OrderItem[]
+
+  @@index([userId])
+}
+
+model OrderItem {
+  id        String @id @default(cuid())
+  orderId   String
+  productId String
+  quantity  Int
+  price     Float
+  grind     String @default("whole-bean")
+
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id])
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+// ─── Reviews ─────────────────────────────────────────
+
+model Review {
+  id        String   @id @default(cuid())
+  userId    String
+  productId String
+  rating    Int
+  title     String?
+  comment   String?  @db.Text
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id])
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+}
+
+// ─── Wishlist ────────────────────────────────────────
+
+model Wishlist {
+  id     String         @id @default(cuid())
+  userId String         @unique
+  items  WishlistItem[]
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model WishlistItem {
+  id         String @id @default(cuid())
+  wishlistId String
+  productId  String
+
+  wishlist Wishlist @relation(fields: [wishlistId], references: [id], onDelete: Cascade)
+  product  Product  @relation(fields: [productId], references: [id])
+
+  @@unique([wishlistId, productId])
+}
+
+// ─── Subscriptions ───────────────────────────────────
+
+model Subscription {
+  id               String             @id @default(cuid())
+  userId           String
+  productId        String
+  frequency        SubscriptionFreq
+  grind            String             @default("whole-bean")
+  status           SubscriptionStatus @default(ACTIVE)
+  stripeSubId      String?
+  nextDeliveryDate DateTime?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+
+  user    User    @relation(fields: [userId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+
+  @@index([userId])
+}
+
+enum SubscriptionFreq {
+  WEEKLY
+  BIWEEKLY
+  MONTHLY
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  PAUSED
+  CANCELLED
+}
+
+// ─── Address ─────────────────────────────────────────
+
+model Address {
+  id         String  @id @default(cuid())
+  userId     String
+  label      String  @default("Home")
+  line1      String
+  line2      String?
+  city       String
+  state      String
+  postalCode String
+  country    String  @default("US")
+  isDefault  Boolean @default(false)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+// ─── Quiz ────────────────────────────────────────────
+
+model QuizResult {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  prefersCoffee   Boolean
+  flavorProfile   String[]
+  strengthPref    String
+  adventureLevel  String
+  recommendedIds  String[]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
