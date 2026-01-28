@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    @apply bg-brand-black text-brand-cream font-body antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+
+  ::selection {
+    @apply bg-brand-gold/30 text-brand-cream;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-brand-dark;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-brand-gray rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-brand-muted;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-brand-gold text-brand-black 
+           font-semibold text-sm tracking-wide uppercase rounded-none
+           hover:bg-brand-gold-light transition-all duration-300
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-6 py-3 border border-brand-gold text-brand-gold 
+           font-semibold text-sm tracking-wide uppercase rounded-none
+           hover:bg-brand-gold hover:text-brand-black transition-all duration-300
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center px-4 py-2 text-brand-light 
+           hover:text-brand-cream transition-colors duration-200;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 bg-brand-charcoal border border-brand-gray text-brand-cream
+           placeholder:text-brand-muted focus:border-brand-gold focus:outline-none 
+           transition-colors duration-200;
+  }
+
+  .card {
+    @apply bg-brand-dark border border-brand-gray/50 overflow-hidden
+           hover:border-brand-gold/30 transition-all duration-300;
+  }
+
+  .section-title {
+    @apply font-display text-3xl md:text-4xl text-brand-cream tracking-tight;
+  }
+
+  .gold-text {
+    @apply text-brand-gold;
+  }
+
+  .divider {
+    @apply w-16 h-px bg-brand-gold mx-auto my-6;
+  }
+
+  .glass {
+    @apply bg-brand-dark/80 backdrop-blur-md border border-brand-gray/30;
+  }
+}
+
+@layer utilities {
+  .animate-delay-100 { animation-delay: 100ms; }
+  .animate-delay-200 { animation-delay: 200ms; }
+  .animate-delay-300 { animation-delay: 300ms; }
+  .animate-delay-400 { animation-delay: 400ms; }
+}
