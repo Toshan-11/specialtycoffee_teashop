@@ -3,6 +3,7 @@ import ProductCard from '@/components/shop/ProductCard';
 import { getProducts, getCategories } from '@/actions';
 import Link from 'next/link';
 import { SlidersHorizontal } from 'lucide-react';
+import SortSelect from '@/components/shop/SortSelect';
 
 interface Props {
   searchParams: { category?: string; sort?: string; search?: string };
@@ -75,25 +76,7 @@ export default async function ProductsPage({ searchParams }: Props) {
         {/* Sort */}
         <div className="flex items-center gap-2">
           <SlidersHorizontal size={14} className="text-brand-muted" />
-          <select
-            defaultValue={searchParams.sort || ''}
-            className="bg-brand-charcoal border border-brand-gray text-brand-light text-sm px-3 py-2 focus:border-brand-gold focus:outline-none"
-            onChange={(e) => {
-              const url = new URL(window.location.href);
-              if (e.target.value) {
-                url.searchParams.set('sort', e.target.value);
-              } else {
-                url.searchParams.delete('sort');
-              }
-              window.location.href = url.toString();
-            }}
-          >
-            {sortOptions.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
+          <SortSelect currentSort={searchParams.sort} />
         </div>
       </div>
 
