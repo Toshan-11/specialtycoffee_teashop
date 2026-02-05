@@ -379,6 +379,14 @@ export async function adminCreateProduct(formData: FormData) {
   const flavorNotesRaw = formData.get('flavorNotes') as string;
   const flavorNotes = flavorNotesRaw ? flavorNotesRaw.split(',').map((n) => n.trim()) : [];
 
+  const imagesRaw = formData.get('images') as string;
+  let images: string[];
+  try {
+    images = JSON.parse(imagesRaw);
+  } catch {
+    images = ['https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=800'];
+  }
+
   await prisma.product.create({
     data: {
       name,
@@ -389,7 +397,7 @@ export async function adminCreateProduct(formData: FormData) {
       origin,
       weight,
       flavorNotes,
-      images: ['https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=800'],
+      images,
     },
   });
 

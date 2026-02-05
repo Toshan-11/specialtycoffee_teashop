@@ -5,6 +5,7 @@ import { adminCreateProduct } from '@/actions';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { Plus, X } from 'lucide-react';
+import ImageUpload from '@/components/ui/ImageUpload';
 
 interface Props {
   categories: { id: string; name: string }[];
@@ -13,16 +14,26 @@ interface Props {
 export default function AdminProductActions({ categories }: Props) {
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [images, setImages] = useState<string[]>([]);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (images.length === 0) {
+      toast.error('Please upload at least one product image');
+      return;
+    }
+
     setLoading(true);
     const formData = new FormData(e.currentTarget);
+    formData.set('images', JSON.stringify(images));
+
     const result = await adminCreateProduct(formData);
     if (result.success) {
       toast.success('Product created!');
       setShowForm(false);
+      setImages([]);
       router.refresh();
     } else {
       toast.error(result.error || 'Failed to create product');
@@ -45,6 +56,9 @@ export default function AdminProductActions({ categories }: Props) {
           onSubmit={handleSubmit}
           className="p-6 border border-brand-gray/30 bg-brand-dark space-y-4"
         >
+          {/* Image Upload */}
+          <ImageUpload images={images} onChange={setImages} maxImages={4} />
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs text-brand-muted uppercase tracking-wider mb-2">
