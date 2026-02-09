@@ -32,7 +32,7 @@ export default function AboutPage() {
       <section className="max-w-4xl mx-auto px-4 sm:px-6 py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div>
-            <p className="text-brand-gold text-xs tracking-[0.3em] uppercase mb-3">Founded 2024</p>
+            <p className="text-brand-gold text-xs tracking-[0.3em] uppercase mb-3">Founded 2026</p>
             <h2 className="font-display text-3xl text-brand-cream mb-6">
               Crafted with Intention
             </h2>

@@ -27,7 +27,7 @@ export default async function HomePage() {
         </div>
         <div className="relative z-10 text-center max-w-3xl mx-auto px-4">
           <p className="text-brand-gold text-sm tracking-[0.3em] uppercase mb-6 animate-fade-in">
-            Est. 2024 &mdash; Specialty Coffee & Tea
+            Est. 2026 &mdash; Specialty Coffee & Tea
           </p>
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl text-brand-cream leading-tight mb-6 animate-slide-up">
             Every Cup Tells <br />
