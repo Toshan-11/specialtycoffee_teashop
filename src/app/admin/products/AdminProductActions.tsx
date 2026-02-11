@@ -81,7 +81,7 @@ export default function AdminProductActions({ categories }: Props) {
             </div>
             <div>
               <label className="block text-xs text-brand-muted uppercase tracking-wider mb-2">
-                Price ($)
+                Price (Rs.)
               </label>
               <input name="price" type="number" step="0.01" className="input-field" required />
             </div>

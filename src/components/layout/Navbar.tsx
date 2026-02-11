@@ -28,7 +28,7 @@ export default function Navbar() {
         {/* Top bar */}
         <div className="hidden md:flex justify-center py-2 border-b border-brand-gray/30">
           <p className="text-xs tracking-[0.2em] uppercase text-brand-muted">
-            Free shipping on orders over $50 &mdash; Crafted with passion since 2026
+            Free shipping on orders over RS.7000 &mdash; Crafted with passion since 2026
           </p>
         </div>
 
