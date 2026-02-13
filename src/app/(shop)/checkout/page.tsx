@@ -207,9 +207,8 @@ export default function CheckoutPage() {
                     }
                     className="input-field"
                   >
-                    <option value="US">United States</option>
-                    <option value="CA">Canada</option>
-                    <option value="GB">United Kingdom</option>
+                    <option value="NP">Nepal</option>
+                    <option value="IN">India</option>
                   </select>
                 </div>
               </div>
@@ -218,17 +217,29 @@ export default function CheckoutPage() {
             {/* Payment placeholder */}
             <div className="p-6 border border-brand-gray/30 bg-brand-dark">
               <h2 className="font-display text-xl text-brand-cream mb-4">
-                Payment
+                Payment Method
               </h2>
-              <div className="p-4 border border-brand-gold/30 bg-brand-gold/5 text-center">
-                <ShieldCheck className="w-6 h-6 text-brand-gold mx-auto mb-2" />
-                <p className="text-sm text-brand-light">
-                  In production, Stripe&apos;s secure payment form would appear
-                  here.
-                </p>
-                <p className="text-xs text-brand-muted mt-1">
-                  For demo purposes, clicking &quot;Place Order&quot; will create the
-                  order directly.
+              <div className="space-y-3 mb-4">
+                <label className="flex items-center gap-3 p-3 border border-brand-gray/30 hover:border-brand-gold/50 cursor-pointer transition-colors">
+                  <input type="radio" name="payment" defaultChecked className="accent-brand-gold" />
+                  <span className="text-sm text-brand-cream font-medium">eSewa</span>
+                  <span className="text-xs text-brand-muted ml-auto">Digital Wallet</span>
+                </label>
+                <label className="flex items-center gap-3 p-3 border border-brand-gray/30 hover:border-brand-gold/50 cursor-pointer transition-colors">
+                  <input type="radio" name="payment" className="accent-brand-gold" />
+                  <span className="text-sm text-brand-cream font-medium">Khalti</span>
+                  <span className="text-xs text-brand-muted ml-auto">Digital Wallet</span>
+                </label>
+                <label className="flex items-center gap-3 p-3 border border-brand-gray/30 hover:border-brand-gold/50 cursor-pointer transition-colors">
+                  <input type="radio" name="payment" className="accent-brand-gold" />
+                  <span className="text-sm text-brand-cream font-medium">Bank Transfer</span>
+                  <span className="text-xs text-brand-muted ml-auto">Direct Payment</span>
+                </label>
+              </div>
+              <div className="p-3 border border-brand-gold/30 bg-brand-gold/5 text-center">
+                <ShieldCheck className="w-5 h-5 text-brand-gold mx-auto mb-1" />
+                <p className="text-xs text-brand-muted">
+                  Payment gateways are not wired up yet. Clicking &quot;Place Order&quot; will create the order directly for demo purposes.
                 </p>
               </div>
             </div>
