@@ -87,26 +87,29 @@ export default function Navbar() {
                     {session.user.name}
                   </p>
                   <div className="border-t border-brand-gray/30 my-1" />
-                  {session.user.role === 'ADMIN' && (
+                  {session.user.role === 'ADMIN' ? (
                     <Link
                       href="/admin"
                       className="block px-4 py-2 text-sm text-brand-light hover:text-brand-gold hover:bg-brand-charcoal transition-colors"
                     >
                       Admin Dashboard
                     </Link>
+                  ) : (
+                    <>
+                      <Link
+                        href="/account/orders"
+                        className="block px-4 py-2 text-sm text-brand-light hover:text-brand-gold hover:bg-brand-charcoal transition-colors"
+                      >
+                        My Orders
+                      </Link>
+                      <Link
+                        href="/account/subscriptions"
+                        className="block px-4 py-2 text-sm text-brand-light hover:text-brand-gold hover:bg-brand-charcoal transition-colors"
+                      >
+                        Subscriptions
+                      </Link>
+                    </>
                   )}
-                  <Link
-                    href="/account/orders"
-                    className="block px-4 py-2 text-sm text-brand-light hover:text-brand-gold hover:bg-brand-charcoal transition-colors"
-                  >
-                    My Orders
-                  </Link>
-                  <Link
-                    href="/account/subscriptions"
-                    className="block px-4 py-2 text-sm text-brand-light hover:text-brand-gold hover:bg-brand-charcoal transition-colors"
-                  >
-                    Subscriptions
-                  </Link>
                   <div className="border-t border-brand-gray/30 my-1" />
                   <button
                     onClick={() => signOut()}

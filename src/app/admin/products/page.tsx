@@ -5,6 +5,7 @@ import { getProducts, getCategories } from '@/actions';
 import { formatPrice } from '@/lib/utils';
 import Link from 'next/link';
 import AdminProductActions from './AdminProductActions';
+import DeleteProductButton from '@/components/admin/DeleteProductButton';
 
 export default async function AdminProductsPage() {
   const session = await getServerSession(authOptions);
@@ -48,6 +49,7 @@ export default async function AdminProductsPage() {
                 <th className="text-left text-xs text-brand-muted uppercase tracking-wider px-6 py-3">Price</th>
                 <th className="text-left text-xs text-brand-muted uppercase tracking-wider px-6 py-3">Rating</th>
                 <th className="text-left text-xs text-brand-muted uppercase tracking-wider px-6 py-3">Status</th>
+                <th className="text-right text-xs text-brand-muted uppercase tracking-wider px-6 py-3">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -66,6 +68,9 @@ export default async function AdminProductsPage() {
                     <span className={`text-xs px-2 py-1 ${product.inStock ? 'bg-green-400/10 text-green-400' : 'bg-red-400/10 text-red-400'}`}>
                       {product.inStock ? 'In Stock' : 'Out of Stock'}
                     </span>
+                  </td>
+                  <td className="px-6 py-4 text-right">
+                    <DeleteProductButton productId={product.id} productName={product.name} />
                   </td>
                 </tr>
               ))}
