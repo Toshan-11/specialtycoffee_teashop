@@ -5,6 +5,7 @@ import { useSession, signOut } from 'next-auth/react';
 import { useState } from 'react';
 import { ShoppingBag, User, Menu, X, Search, Leaf } from 'lucide-react';
 import { useCartStore } from '@/hooks/useCart';
+import ThemeToggle from '@/components/ui/ThemeToggle';
 
 export default function Navbar() {
   const { data: session } = useSession();
@@ -64,7 +65,7 @@ export default function Navbar() {
           </nav>
 
           {/* Actions */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1">
             <button
               onClick={() => setSearchOpen(!searchOpen)}
               className="p-2 text-brand-light hover:text-brand-gold transition-colors"
@@ -72,6 +73,7 @@ export default function Navbar() {
               <Search size={20} />
             </button>
 
+            <ThemeToggle />
             {session ? (
               <div className="relative group">
                 <Link

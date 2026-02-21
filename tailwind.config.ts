@@ -6,21 +6,22 @@ const config: Config = {
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
         brand: {
-          black: '#0A0A0A',
-          dark: '#141414',
-          charcoal: '#1E1E1E',
-          gray: '#2A2A2A',
-          muted: '#6B6B6B',
-          light: '#A3A3A3',
-          cream: '#F5F0EB',
-          gold: '#C9A96E',
-          'gold-light': '#D4B97A',
-          'gold-dark': '#B8944E',
-          white: '#FAFAF9',
+          black: 'rgb(var(--brand-black) / <alpha-value>)',
+          dark: 'rgb(var(--brand-dark) / <alpha-value>)',
+          charcoal: 'rgb(var(--brand-charcoal) / <alpha-value>)',
+          gray: 'rgb(var(--brand-gray) / <alpha-value>)',
+          muted: 'rgb(var(--brand-muted) / <alpha-value>)',
+          light: 'rgb(var(--brand-light) / <alpha-value>)',
+          cream: 'rgb(var(--brand-cream) / <alpha-value>)',
+          gold: 'rgb(var(--brand-gold) / <alpha-value>)',
+          'gold-light': 'rgb(var(--brand-gold-light) / <alpha-value>)',
+          'gold-dark': 'rgb(var(--brand-gold-dark) / <alpha-value>)',
+          white: 'rgb(var(--brand-white) / <alpha-value>)',
         },
       },
       fontFamily: {
